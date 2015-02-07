@@ -4,7 +4,7 @@
 \
 #define SSID "purna"
 #define PASS "purna1035"
-#define IP "184.106.153.149" // thingspeak.com
+#define IP "184.106.153.149" // thingspeak
 String GET = "GET /update?key=KOHYZVC94RQT24ES&field3=";
 SoftwareSerial wifiport(10, 11); // RX, TX
 const int temperaturePin = 0;
