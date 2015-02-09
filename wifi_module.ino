@@ -4,9 +4,9 @@
 \
 #define SSID "purna"
 #define PASS "purna1035"
-#define IP "184.106.153.149" // thingspeak
+#define IP "184.106.153.149" // thingspeak.com
 String GET = "GET /update?key=KOHYZVC94RQT24ES&field3=";
-SoftwareSerial wifiport(10, 11); // RX, TX
+SoftwareSerial wifiport(5, 6); // RX, TX
 const int temperaturePin = 0;
 
 void setup()
@@ -33,24 +33,25 @@ void loop(){
   delay(5000);
   if(wifiport.find("OK")){
     Serial.println("RECEIVED: OK");
+    float voltage, degreesC, degreesF;
+    voltage = getVoltage(temperaturePin);
+    degreesC = (voltage - 0.5) * 100.0;
+    degreesF = degreesC * (9.0/5.0) + 32.0;
+//  // These statements will print lines of data like this:
+//  // "voltage: 0.73 deg C: 22.75 deg F: 72.96"
+    delay(5000); // repeat once per second (change as you wish!)
+////  float tempC = sensors.getTempCByIndex(0);
+////  tempC = DallasTemperature::toFahrenheit(tempC);
+    char buffer[10];
+    String tempF = dtostrf(degreesF, 4, 1, buffer);
+    updateTemp(tempF);
   }
   if(wifiport.find("Error")){
     Serial.println("RECEIVED: Error");
     return;
   }
-  float voltage, degreesC, degreesF;
-  voltage = getVoltage(temperaturePin);
-  degreesC = (voltage - 0.5) * 100.0;
-  degreesF = degreesC * (9.0/5.0) + 32.0;
-//  // These statements will print lines of data like this:
-//  // "voltage: 0.73 deg C: 22.75 deg F: 72.96"
-  delay(5000); // repeat once per second (change as you wish!)
-////  float tempC = sensors.getTempCByIndex(0);
-////  tempC = DallasTemperature::toFahrenheit(tempC);
-  char buffer[10];
-  String tempF = dtostrf(degreesF, 4, 1, buffer);
-  updateTemp(tempF);
-  delay(60000);
+
+  delay(10000);
 
 }
 
